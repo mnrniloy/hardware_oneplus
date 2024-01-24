@@ -1,6 +1,5 @@
 android_app {
     name: "KeyHandler",
-    defaults: ["SettingsLibDefaults"],
 
     srcs: ["src/**/*.kt"],
     resource_dirs: ["res"],
@@ -8,6 +7,11 @@ android_app {
     certificate: "platform",
     platform_apis: true,
     system_ext_specific: true,
+
+    libs: ["SystemUIPluginLib"],
+    static_libs: [
+        "org.lineageos.settings.resources",
+    ],
 
     optimize: {
         proguard_flags_files: ["proguard.flags"],

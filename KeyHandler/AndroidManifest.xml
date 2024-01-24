@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2018, 2021-2022 The LineageOS Project
+     Copyright (C) 2018, 2021-2023 The LineageOS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@
           package="org.lineageos.settings.device">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.android.systemui.permission.PLUGIN" />
+
+    <protected-broadcast android:name="org.lineageos.settings.UPDATE_SETTINGS" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -29,7 +32,7 @@
 
         <receiver
             android:name="org.lineageos.settings.device.BootCompletedReceiver"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -52,20 +55,24 @@
         <activity
             android:name=".ButtonSettingsActivity"
             android:label="@string/button_panel_title"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.android.settings.action.IA_SETTINGS" />
+                <action android:name="org.lineageos.settings.device.ADDITIONAL_BUTTONS_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.gestures" />
-            <meta-data
-                android:name="com.android.settings.summary"
-                android:resource="@string/alert_slider_summary" />
         </activity>
 
         <service
             android:name=".KeyHandler"
             android:permission="KeyHandlerService"
             android:exported="false" />
+
+        <service
+            android:name=".AlertSliderPlugin"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_OVERLAY" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
